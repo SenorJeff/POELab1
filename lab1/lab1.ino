@@ -60,6 +60,9 @@ void loop() {
       LEDState = LEDState % 5;
       Serial.println(LEDState);
   }
+
+  bool greenOn = LEDState > 2;
+  digitalWrite(green, greenOn);
   
   previousButtonState = buttonState;
   delay(100);
