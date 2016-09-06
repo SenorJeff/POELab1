@@ -50,22 +50,22 @@ void setup() {
 }
 
 void writeAll(bool redon, bool yellowon, bool greenon){
-  analogWrite(red, 250-sensorValue/2);
-  analogWrite(yellow, 250-sensorValue/2);
-  analogWrite(green,250-sensorValue/2);
+  analogWrite(red, redon ? (250-sensorValue/2) : 0);
+  analogWrite(yellow, yellowon ? (250-sensorValue/2) : 0);
+  analogWrite(green, greenon ? (250-sensorValue/2) : 0);
 }
 
 void loop() {
   // read the state of the pushbutton value:
   buttonState = digitalRead(buttonPin);
   sensorValue = analogRead(sensorPin);
-  Serial.println(sensorValue);
+  //Serial.println(sensorValue);
   // check if the pushbutton is pressed.
   // if it is, the buttonState is HIGH:
   if ((buttonState == HIGH) && (previousButtonState == LOW)) {
       //increment LEDState
       LEDState++;
-      LEDState = LEDState % 5;
+      LEDState = LEDState % 9;
       Serial.println(LEDState);
   }
 
@@ -84,13 +84,29 @@ void loop() {
   }
   else if(LEDState == 3)
   {
-    writeAll(timer%3 == 0, timer%3 == 1, timer%3 == 2);
+    writeAll(!(timer%2 > 0),!(timer%4 > 1), !(timer%8 > 3)); 
   }
   else if(LEDState == 4)
+  {
+    writeAll(timer%3 == 0, timer%3 == 1, timer%3 == 2);   
+  }
+  else if(LEDState == 5)
+  {
+    writeAll(timer%3 == 2, timer%3 == 1, timer%3 == 0);
+  }
+  else if(LEDState == 6)
+  {
+    writeAll(!(timer%3 == 0), !(timer%3 == 1), !(timer%3 == 2));
+  }
+  else if(LEDState == 7)
+  {
+    writeAll(!(timer%3 == 2), !(timer%3 == 1), !(timer%3 == 0));
+  }
+  else
   {
     writeAll(LOW, LOW, LOW);
   }
   
   previousButtonState = buttonState;
-  delay(100);
+  delay(2);
 }
