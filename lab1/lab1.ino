@@ -48,6 +48,12 @@ void setup() {
   Serial.begin(9600);
 }
 
+void writeAll(bool redon, bool yellowon, bool greenon){
+  digitalWrite(red, redon);
+  digitalWrite(yellow, yellowon);
+  digitalWrite(green, greenon);
+}
+
 void loop() {
   // read the state of the pushbutton value:
   buttonState = digitalRead(buttonPin);
@@ -62,7 +68,7 @@ void loop() {
   }
 
   bool greenOn = LEDState > 2;
-  digitalWrite(green, greenOn);
+  writeAll(greenOn, greenOn, HIGH);
   
   previousButtonState = buttonState;
   delay(100);
